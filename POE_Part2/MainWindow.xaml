@@ -42,13 +42,15 @@
                 </TextBlock>
 
                 <!-- Logo -->
-                <Image Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\image0.png"
-                       Width="84" Height="82"
-                       Margin="10,0,0,0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Right"
-                       ClipToBounds="True"
-                       DockPanel.Dock="Right" RenderTransformOrigin="0.399,0.433"/>
+                <Image Source="Images/logo.png"
+       Width="200" Height="200"
+       Stretch="UniformToFill"
+       Margin="10"
+       VerticalAlignment="Center"
+       HorizontalAlignment="Right"
+       ClipToBounds="True"
+       DockPanel.Dock="Right"/>
+
             </DockPanel>
         </Border>
 
