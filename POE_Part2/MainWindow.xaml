@@ -1,0 +1,79 @@
+﻿<Window x:Class="POE_Part2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Cybersecurity Awareness Bot" Height="650" Width="950" Background="White">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Banner -->
+            <RowDefinition Height="*"/>
+            <!-- Conversation -->
+            <RowDefinition Height="Auto"/>
+            <!-- Input -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!-- Chat -->
+            <ColumnDefinition Width="250"/>
+            <!-- Sidebar -->
+        </Grid.ColumnDefinitions>
+
+        <!-- ASCII Banner -->
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   Text=" +-+-+ +-+-+-+
+ |C|y|b|e|r|s|e|c|u|r|i|t|y| |A|w|a|r|e|n|e|s|s| |B|o|t|
+ +-+-"
+                   Foreground="DarkOrange"
+                   FontFamily="Consolas"
+                   FontSize="20"
+                   HorizontalAlignment="Left"
+                   Margin="-19,30,0,454" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+
+        <!-- Top-right picture -->
+        <Image Grid.Column="1"
+               Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\image0.png"
+               Width="133" Height="149"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center" 
+               Margin="144,0,0,0" RenderTransformOrigin="1.467,0.613"/>
+
+        <!-- Conversation Panel -->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="LightBlue" Margin="5,87,0,5" Grid.RowSpan="2">
+            <StackPanel x:Name="ChatPanel" Margin="10"/>
+        </ScrollViewer>
+
+        <!-- Input Section -->
+        <DockPanel Grid.Row="2" Grid.Column="0" Margin="5" Grid.ColumnSpan="2">
+            <TextBox x:Name="UserInput" Width="655" Height="30" Margin="5" Background="LightGray"/>
+            <Button Content="Send" Width="128" Height="30" Margin="5" Background="Green" Foreground="White" Click="Send_Click"/>
+        </DockPanel>
+
+        <!-- Sidebar for Memory & Quick Topics -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5,5,0,41" Background="Orange" Grid.RowSpan="2">
+            <TextBlock Text="🧠 Memory" FontWeight="Bold" Foreground="White" Margin="5"/>
+            <TextBlock x:Name="NameMemory" Text="Name: (not set)" Foreground="LightYellow" Margin="5"/>
+            <TextBlock x:Name="BirthdayMemory" Text="Birthday: (not set)" Foreground="LightYellow" Margin="5"/>
+            <TextBlock x:Name="LocationMemory" Text="Location: (not set)" Foreground="LightYellow" Margin="5"/>
+            <Button Content="Clear Memory" Background="Red" Foreground="White" Click="ClearMemory_Click" Margin="5"/>
+
+            <Separator Margin="5"/>
+            <TextBlock Text="⚡ Quick Topics" FontWeight="Bold" Foreground="White" Margin="5"/>
+            <Button Content="Passwords" Click="QuickTopic_Click" Tag="password" Margin="5"/>
+            <Button Content="Phishing" Click="QuickTopic_Click" Tag="phishing" Margin="5"/>
+            <Button Content="Malware" Click="QuickTopic_Click" Tag="malware" Margin="5"/>
+            <Button Content="VPN" Click="QuickTopic_Click" Tag="vpn" Margin="5"/>
+            <Button Content="2FA" Click="QuickTopic_Click" Tag="2fa" Margin="5"/>
+            <Button Content="Safe Browsing" Click="QuickTopic_Click" Tag="safe browsing" Margin="5"/>
+            <Button Content="Scams" Click="QuickTopic_Click" Tag="scam" Margin="5"/>
+            <Button Content="Privacy" Click="QuickTopic_Click" Tag="privacy" Margin="5"/>
+            <Button Content="Cybersecurity" Click="QuickTopic_Click" Tag="cybersecurity" Margin="5"/>
+            <Separator Margin="5"/>
+
+            <Button Content="Play Greeting Again" Background="Green" Foreground="White" Click="PlayGreeting_Click" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>
