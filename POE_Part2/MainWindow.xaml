@@ -48,7 +48,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"
                        ClipToBounds="True"
-                       DockPanel.Dock="Right"/>
+                       DockPanel.Dock="Right" RenderTransformOrigin="0.399,0.433"/>
             </DockPanel>
         </Border>
 
