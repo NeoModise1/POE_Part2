@@ -88,9 +88,9 @@ namespace POE_Part2
                 // General chatbot responses
                 if (question.Contains("hello") || question.Contains("hi") || question.Contains("hey"))
                     response = "Hello! How are you today?";
-                else if (question.Contains("who are you"))
+                else if (question.Contains("who are you")) 
                     response = "I’m your chatbot companion. I can chat casually or share cybersecurity awareness tips if you’d like.";
-                else if (question.Contains("what can you do"))
+                else if (question.Contains("what can you do" + "What can you help me with"))
                     response = "I can chat with you, detect sentiment, remember your details, and provide cybersecurity tips.";
                 else
                     response = bot.GetResponse(question); // fallback to cybersecurity tips or general responses
