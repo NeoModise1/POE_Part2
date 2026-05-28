@@ -62,4 +62,4 @@ This project was developed as part of an assignment to demonstrate GUI design, m
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YourUsername/CybersecurityChatbot.git
+   git clone https://github.com/NeoModise1/POE_Part2
