@@ -36,7 +36,7 @@
         <!-- Top-right picture -->
         <Image Grid.Column="1"
                Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\image0.png"
-               Width="133" Height="149"
+               Width="133" Height="148"
                HorizontalAlignment="Left"
                VerticalAlignment="Center" 
                Margin="144,0,0,0" RenderTransformOrigin="1.467,0.613"/>
