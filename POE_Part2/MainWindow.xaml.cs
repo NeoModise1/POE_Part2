@@ -86,7 +86,7 @@ namespace POE_Part2
             else
             {
                 // General chatbot responses
-                if (question.Contains("hello") || question.Contains("hi"))
+                if (question.Contains("hello") || question.Contains("hi") || question.Contains("hey"))
                     response = "Hello! How are you today?";
                 else if (question.Contains("who are you"))
                     response = "I’m your chatbot companion. I can chat casually or share cybersecurity awareness tips if you’d like.";
