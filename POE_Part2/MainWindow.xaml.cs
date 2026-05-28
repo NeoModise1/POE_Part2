@@ -65,7 +65,7 @@ namespace POE_Part2
             string response;
 
             // Memory management: detect user info
-            if (question.StartsWith("my name is"))
+            if (question.StartsWith("my name is" + "I am"))
             {
                 string name = question.Replace("my name is", "").Trim();
                 bot.Remember("name", name);
