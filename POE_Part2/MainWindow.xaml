@@ -26,7 +26,7 @@
         <TextBlock Grid.Row="0" Grid.Column="0"
                    Text=" +-+-+ +-+-+-+
  |C|y|b|e|r|s|e|c|u|r|i|t|y| |A|w|a|r|e|n|e|s|s| |B|o|t|
- +-+-"
+ "
                    Foreground="DarkOrange"
                    FontFamily="Consolas"
                    FontSize="20"
@@ -36,13 +36,13 @@
         <!-- Top-right picture -->
         <Image Grid.Column="1"
                Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\image0.png"
-               Width="133" Height="148"
+               Width="152" Height="148"
                HorizontalAlignment="Left"
                VerticalAlignment="Center" 
-               Margin="144,0,0,0" RenderTransformOrigin="1.467,0.613"/>
+               Margin="125,0,0,0" RenderTransformOrigin="1.467,0.613"/>
 
         <!-- Conversation Panel -->
-        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="LightBlue" Margin="5,87,0,5" Grid.RowSpan="2">
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="LightSkyBlue" Margin="5,98,0,5" Grid.RowSpan="2">
             <StackPanel x:Name="ChatPanel" Margin="10"/>
         </ScrollViewer>
 
@@ -53,7 +53,7 @@
         </DockPanel>
 
         <!-- Sidebar for Memory & Quick Topics -->
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5,5,0,41" Background="Orange" Grid.RowSpan="2">
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5,5,0,41" Background="DarkOrange" Grid.RowSpan="2">
             <TextBlock Text="🧠 Memory" FontWeight="Bold" Foreground="White" Margin="5"/>
             <TextBlock x:Name="NameMemory" Text="Name: (not set)" Foreground="LightYellow" Margin="5"/>
             <TextBlock x:Name="BirthdayMemory" Text="Birthday: (not set)" Foreground="LightYellow" Margin="5"/>
