@@ -42,7 +42,7 @@
                 </TextBlock>
 
                 <!-- Logo -->
-                <Image Source="Images/logo.png"
+                <Image Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\394E5372-1CDE-4FD9-AB08-6D629B563CDC.JPG"
        Width="200" Height="200"
        Stretch="UniformToFill"
        Margin="10"
