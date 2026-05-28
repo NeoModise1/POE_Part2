@@ -70,7 +70,6 @@
             <Button Content="Safe Browsing" Click="QuickTopic_Click" Tag="safe browsing" Margin="5"/>
             <Button Content="Scams" Click="QuickTopic_Click" Tag="scam" Margin="5"/>
             <Button Content="Privacy" Click="QuickTopic_Click" Tag="privacy" Margin="5"/>
-            <Button Content="Cybersecurity" Click="QuickTopic_Click" Tag="cybersecurity" Margin="5"/>
             <Separator Margin="5"/>
 
             <Button Content="Play Greeting Again" Background="Green" Foreground="White" Click="PlayGreeting_Click" Margin="5"/>
