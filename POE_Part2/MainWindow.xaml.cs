@@ -1,4 +1,5 @@
 ﻿using Assignment_1_Part1;
+using System;
 using System.Media;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,7 +18,21 @@ namespace POE_Part2
 
             PlayGreeting();
 
-            AddBotMessage("👋 Hi there! I’m your chatbot. You can chat with me about anything, and I’ll also share cybersecurity tips if you’d like.");
+            // If name is already stored, greet with it
+            string storedName = bot.Recall("name");
+            if (!string.IsNullOrEmpty(storedName))
+            {
+                AddBotMessage($"👋 Hi {storedName}! Welcome back. You can chat with me about anything, and I’ll also share cybersecurity tips if you’d like.");
+            }
+            else
+            {
+                AddBotMessage("👋 Hi there! I’m your chatbot. You can chat with me about anything, and I’ll also share cybersecurity tips if you’d like.");
+            }
+
+            // Update memory labels immediately
+            NameMemory.Text = "Name: " + (storedName ?? "(not set)");
+            BirthdayMemory.Text = "Birthday: " + (bot.Recall("birthday") ?? "(not set)");
+            LocationMemory.Text = "Location: " + (bot.Recall("location") ?? "(not set)");
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)
@@ -70,18 +85,23 @@ namespace POE_Part2
                 string name = question.Replace("my name is", "").Replace("i am", "").Trim();
                 bot.Remember("name", name);
                 response = $"Nice to meet you, {name}! I'll remember your name.";
+
+                // Update immediately
+                NameMemory.Text = "Name: " + name;
             }
             else if (question.StartsWith("my birthday is"))
             {
                 string birthday = question.Replace("my birthday is", "").Trim();
                 bot.Remember("birthday", birthday);
                 response = $"Got it! I'll remember your birthday as {birthday}.";
+                BirthdayMemory.Text = "Birthday: " + birthday;
             }
             else if (question.StartsWith("i live in"))
             {
                 string location = question.Replace("i live in", "").Trim();
                 bot.Remember("location", location);
                 response = $"Thanks for sharing! I'll remember that you live in {location}.";
+                LocationMemory.Text = "Location: " + location;
             }
             else
             {
@@ -99,7 +119,7 @@ namespace POE_Part2
                     response = bot.GetResponse(question);
             }
 
-            // Reference stored info later in conversation
+            // Reference stored info later
             if (question.Contains("birthday"))
             {
                 string birthday = bot.Recall("birthday");
@@ -122,27 +142,7 @@ namespace POE_Part2
             else if (response.Contains("vpn"))
                 response += " 🌐 Since you’re curious about VPNs, should I explain safe browsing next?";
 
-            // Sentiment coloring
-            Brush color = Brushes.Cyan;
-            if (question.Contains("worried") || question.Contains("stressed"))
-                color = Brushes.LightBlue;
-            else if (question.Contains("happy") || question.Contains("excited"))
-                color = Brushes.LightGreen;
-            else if (question.Contains("sad") || question.Contains("upset"))
-                color = Brushes.LightPink;
-            else if (question.Contains("angry"))
-                color = Brushes.OrangeRed;
-            else if (question.Contains("confused"))
-                color = Brushes.Purple;
-            else if (question.Contains("curious"))
-                color = Brushes.LightYellow;
-
-            AddBotMessage(response, color);
-
-            // Update memory labels
-            NameMemory.Text = "Name: " + (bot.Recall("name") ?? "(not set)");
-            BirthdayMemory.Text = "Birthday: " + (bot.Recall("birthday") ?? "(not set)");
-            LocationMemory.Text = "Location: " + (bot.Recall("location") ?? "(not set)");
+            AddBotMessage(response);
 
             bot.SaveMemory();
         }
@@ -156,41 +156,67 @@ namespace POE_Part2
             AddBotMessage("🗑️ Memory cleared.");
         }
 
-        // WhatsApp-style bubbles
+        // Regular chatbot look: user right, bot left, with timestamps
         private void AddUserMessage(string text)
         {
-            ChatPanel.Children.Add(new Border
+            ChatPanel.Children.Add(new StackPanel
             {
-                Background = Brushes.LightGreen,
-                CornerRadius = new CornerRadius(8),
-                Padding = new Thickness(6),
-                Margin = new Thickness(2),
                 HorizontalAlignment = HorizontalAlignment.Right,
-                Child = new TextBlock
+                Children =
                 {
-                    Text = text,
-                    Foreground = Brushes.Black,
-                    FontFamily = new FontFamily("Consolas"),
-                    TextWrapping = TextWrapping.Wrap
+                    new Border
+                    {
+                        Background = Brushes.LightGray,
+                        CornerRadius = new CornerRadius(4),
+                        Padding = new Thickness(6),
+                        Margin = new Thickness(2),
+                        Child = new TextBlock
+                        {
+                            Text = text,
+                            Foreground = Brushes.Black,
+                            FontFamily = new FontFamily("Consolas"),
+                            TextWrapping = TextWrapping.Wrap
+                        }
+                    },
+                    new TextBlock
+                    {
+                        Text = DateTime.Now.ToString("HH:mm"),
+                        FontSize = 10,
+                        Foreground = Brushes.DarkGray,
+                        HorizontalAlignment = HorizontalAlignment.Right
+                    }
                 }
             });
         }
 
         private void AddBotMessage(string text, Brush? color = null)
         {
-            ChatPanel.Children.Add(new Border
+            ChatPanel.Children.Add(new StackPanel
             {
-                Background = Brushes.White,
-                CornerRadius = new CornerRadius(8),
-                Padding = new Thickness(6),
-                Margin = new Thickness(2),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Child = new TextBlock
+                Children =
                 {
-                    Text = text,
-                    Foreground = color ?? Brushes.DarkSlateGray,
-                    FontFamily = new FontFamily("Consolas"),
-                    TextWrapping = TextWrapping.Wrap
+                    new Border
+                    {
+                        Background = Brushes.Gray,
+                        CornerRadius = new CornerRadius(4),
+                        Padding = new Thickness(6),
+                        Margin = new Thickness(2),
+                        Child = new TextBlock
+                        {
+                            Text = text,
+                            Foreground = color ?? Brushes.White,
+                            FontFamily = new FontFamily("Consolas"),
+                            TextWrapping = TextWrapping.Wrap
+                        }
+                    },
+                    new TextBlock
+                    {
+                        Text = DateTime.Now.ToString("HH:mm"),
+                        FontSize = 10,
+                        Foreground = Brushes.LightGray,
+                        HorizontalAlignment = HorizontalAlignment.Left
+                    }
                 }
             });
         }
