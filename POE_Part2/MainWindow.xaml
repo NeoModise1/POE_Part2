@@ -9,7 +9,7 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Banner -->
+            <!-- Header -->
             <RowDefinition Height="*"/>
             <!-- Conversation -->
             <RowDefinition Height="Auto"/>
@@ -22,27 +22,38 @@
             <!-- Sidebar -->
         </Grid.ColumnDefinitions>
 
-        <!-- ASCII Banner -->
-        <TextBlock Grid.Row="0" Grid.Column="0"
-                   Text=" +-+-+ +-+-+-+
+        <!-- Header Bar -->
+        <Border Grid.Row="0" Grid.ColumnSpan="2"
+                Background="DarkCyan"
+                Padding="10"
+                CornerRadius="6"
+                Margin="5">
+            <DockPanel>
+                <!-- ASCII Banner -->
+                <TextBlock Foreground="DarkOrange"
+                           FontFamily="Consolas"
+                           FontSize="20"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           DockPanel.Dock="Left"
+                           Margin="5">
+ +-+-+ +-+-+-+
  |C|y|b|e|r|s|e|c|u|r|i|t|y| |A|w|a|r|e|n|e|s|s| |B|o|t|
- "
-                   Foreground="DarkOrange"
-                   FontFamily="Consolas"
-                   FontSize="20"
-                   HorizontalAlignment="Left"
-                   Margin="-19,30,0,454" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                </TextBlock>
 
-        <!-- Top-right picture -->
-        <Image Grid.Column="1"
-               Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\image0.png"
-               Width="152" Height="148"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Center" 
-               Margin="125,0,0,0" RenderTransformOrigin="1.467,0.613"/>
+                <!-- Logo -->
+                <Image Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\image0.png"
+                       Width="84" Height="82"
+                       Margin="10,0,0,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       ClipToBounds="True"
+                       DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Border>
 
         <!-- Conversation Panel -->
-        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="LightSkyBlue" Margin="5,98,0,5" Grid.RowSpan="2">
+        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="LightSkyBlue" Margin="5">
             <StackPanel x:Name="ChatPanel" Margin="10"/>
         </ScrollViewer>
 
@@ -52,8 +63,8 @@
             <Button Content="Send" Width="128" Height="30" Margin="5" Background="Green" Foreground="White" Click="Send_Click"/>
         </DockPanel>
 
-        <!-- Sidebar for Memory & Quick Topics -->
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5,5,0,41" Background="DarkOrange" Grid.RowSpan="2">
+        <!-- Sidebar -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" Background="DarkOrange">
             <TextBlock Text="🧠 Memory" FontWeight="Bold" Foreground="White" Margin="5"/>
             <TextBlock x:Name="NameMemory" Text="Name: (not set)" Foreground="LightYellow" Margin="5"/>
             <TextBlock x:Name="BirthdayMemory" Text="Birthday: (not set)" Foreground="LightYellow" Margin="5"/>
@@ -70,8 +81,8 @@
             <Button Content="Safe Browsing" Click="QuickTopic_Click" Tag="safe browsing" Margin="5"/>
             <Button Content="Scams" Click="QuickTopic_Click" Tag="scam" Margin="5"/>
             <Button Content="Privacy" Click="QuickTopic_Click" Tag="privacy" Margin="5"/>
+            <Button Content="Cybersecurity" Click="QuickTopic_Click" Tag="cybersecurity" Margin="5"/>
             <Separator Margin="5"/>
-
             <Button Content="Play Greeting Again" Background="Green" Foreground="White" Click="PlayGreeting_Click" Margin="5"/>
         </StackPanel>
     </Grid>

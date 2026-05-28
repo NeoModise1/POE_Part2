@@ -48,7 +48,7 @@ namespace POE_Part2
         {
             try
             {
-                SoundPlayer player = new SoundPlayer("Voice1.wav");
+                SoundPlayer player = new SoundPlayer("C:\\Users\\cash\\source\\repos\\POE_Part2\\POE_Part2\\POE_Part2\\Voice 1.wav");
                 player.Play();
                 AddBotMessage("🎧 Playing greeting audio...");
             }
