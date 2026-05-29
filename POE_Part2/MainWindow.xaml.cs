@@ -113,6 +113,11 @@ namespace POE_Part2
                 }
                 else if (question.Contains("who are you"))
                     response = "I’m your chatbot companion. I can chat casually or share cybersecurity awareness tips if you’d like.";
+                else if (question.Contains("im good and you") || question.Contains("im good") || question.Contains("im good thanks and yourself"))
+                    response = "I’m good thank you for asking.Im glad you're feeling well";
+                else if (question.Contains("im not good") || question.Contains("im not well") || question.Contains("Im not Okay"))
+                    response = "Its not good to hear that youre unwell ,i hope you become or youll be fine ";
+
                 else if (question.Contains("what can you do") || question.Contains("what can you help me with"))
                     response = "I can chat with you, detect sentiment, remember your details, and provide cybersecurity tips.";
                 else
@@ -182,7 +187,7 @@ namespace POE_Part2
                     {
                         Text = DateTime.Now.ToString("HH:mm"),
                         FontSize = 10,
-                        Foreground = Brushes.DarkGray,
+                        Foreground = Brushes.Black,
                         HorizontalAlignment = HorizontalAlignment.Right
                     }
                 }
@@ -214,7 +219,7 @@ namespace POE_Part2
                     {
                         Text = DateTime.Now.ToString("HH:mm"),
                         FontSize = 10,
-                        Foreground = Brushes.LightGray,
+                        Foreground = Brushes.Black ,
                         HorizontalAlignment = HorizontalAlignment.Left
                     }
                 }
