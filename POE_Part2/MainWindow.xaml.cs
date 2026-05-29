@@ -10,6 +10,8 @@ namespace POE_Part2
     public partial class MainWindow : Window
     {
         private Chatbot bot = new Chatbot();
+        private string pendingQuestion = ""; // track yes/no context
+        private string pendingInfo = "";     // track which personal info we’re asking for
 
         public MainWindow()
         {
@@ -18,19 +20,29 @@ namespace POE_Part2
 
             PlayGreeting();
 
-            // If name is already stored, greet with it
-            string storedName = bot.Recall("name");
-            if (!string.IsNullOrEmpty(storedName))
+            // Start sequential prompts (only one set of questions)
+            if (string.IsNullOrEmpty(bot.Recall("name")))
             {
-                AddBotMessage($"👋 Hi {storedName}! Welcome back. You can chat with me about anything, and I’ll also share cybersecurity tips if you’d like.");
+                AddBotMessage("👋 Hi there! What is your name?");
+                pendingInfo = "name";
+            }
+            else if (string.IsNullOrEmpty(bot.Recall("birthday")))
+            {
+                AddBotMessage("🎂 Could you tell me your birthday?");
+                pendingInfo = "birthday";
+            }
+            else if (string.IsNullOrEmpty(bot.Recall("location")))
+            {
+                AddBotMessage("🌍 Where do you live?");
+                pendingInfo = "location";
             }
             else
             {
-                AddBotMessage("👋 Hi there! I’m your chatbot. You can chat with me about anything, and I’ll also share cybersecurity tips if you’d like.");
+                AddBotMessage($"👋 Welcome back {bot.Recall("name")}! You can chat with me about anything, and I’ll also share cybersecurity tips if you’d like.");
             }
 
             // Update memory labels immediately
-            NameMemory.Text = "Name: " + (storedName ?? "(not set)");
+            NameMemory.Text = "Name: " + (bot.Recall("name") ?? "(not set)");
             BirthdayMemory.Text = "Birthday: " + (bot.Recall("birthday") ?? "(not set)");
             LocationMemory.Text = "Location: " + (bot.Recall("location") ?? "(not set)");
         }
@@ -77,35 +89,99 @@ namespace POE_Part2
         {
             AddUserMessage(question);
 
-            string response;
+            string response = "";
 
-            // Memory management
-            if (question.StartsWith("my name is") || question.StartsWith("i am"))
+            // Handle yes/no responses
+            if (question == "yes" || question == "no")
             {
-                string name = question.Replace("my name is", "").Replace("i am", "").Trim();
-                bot.Remember("name", name);
-                response = $"Nice to meet you, {name}! I'll remember your name.";
+                if (!string.IsNullOrEmpty(pendingQuestion))
+                {
+                    if (question == "yes")
+                    {
+                        response = $"✅ Great! Let's continue with {pendingQuestion}.";
+                        if (pendingQuestion.Contains("password"))
+                            response += " 🔐 Strong passwords should be long and unique.";
+                        else if (pendingQuestion.Contains("phishing"))
+                            response += " 📧 Always check sender addresses carefully.";
+                        else if (pendingQuestion.Contains("vpn"))
+                            response += " 🌐 VPNs help protect your privacy online.";
+                    }
+                    else
+                    {
+                        response = $"❌ No problem, we’ll skip {pendingQuestion} and move on.";
+                    }
+                    pendingQuestion = ""; // reset
+                }
+                else
+                {
+                    response = "ℹ️ I wasn’t asking a yes/no question just now.";
+                }
+            }
+            // Sequential info prompts (only one set)
+            else if (pendingInfo == "name")
+            {
+                bot.Remember("name", question);
+                NameMemory.Text = "Name: " + question;
+                response = $"Nice to meet you, {question}!";
 
-                // Update immediately
-                NameMemory.Text = "Name: " + name;
+                if (string.IsNullOrEmpty(bot.Recall("birthday")))
+                {
+                    AddBotMessage(response);
+                    AddBotMessage("🎂 Could you tell me your birthday?");
+                    pendingInfo = "birthday";
+                    return;
+                }
+                else if (string.IsNullOrEmpty(bot.Recall("location")))
+                {
+                    AddBotMessage(response);
+                    AddBotMessage("🌍 Where do you live?");
+                    pendingInfo = "location";
+                    return;
+                }
+                else
+                {
+                    pendingInfo = "";
+                    AddBotMessage(response);
+                    AddBotMessage($"✅ Great, I’ve saved your profile! Name: {bot.Recall("name")}, Birthday: {bot.Recall("birthday")}, Location: {bot.Recall("location")}");
+                    return;
+                }
             }
-            else if (question.StartsWith("my birthday is"))
+            else if (pendingInfo == "birthday")
             {
-                string birthday = question.Replace("my birthday is", "").Trim();
-                bot.Remember("birthday", birthday);
-                response = $"Got it! I'll remember your birthday as {birthday}.";
-                BirthdayMemory.Text = "Birthday: " + birthday;
+                bot.Remember("birthday", question);
+                BirthdayMemory.Text = "Birthday: " + question;
+                response = $"Got it! I'll remember your birthday as {question}.";
+
+                if (string.IsNullOrEmpty(bot.Recall("location")))
+                {
+                    AddBotMessage(response);
+                    AddBotMessage("🌍 Where do you live?");
+                    pendingInfo = "location";
+                    return;
+                }
+                else
+                {
+                    pendingInfo = "";
+                    AddBotMessage(response);
+                    AddBotMessage($"✅ Great, I’ve saved your profile! Name: {bot.Recall("name")}, Birthday: {bot.Recall("birthday")}, Location: {bot.Recall("location")}");
+                    return;
+                }
             }
-            else if (question.StartsWith("i live in"))
+            else if (pendingInfo == "location")
             {
-                string location = question.Replace("i live in", "").Trim();
-                bot.Remember("location", location);
-                response = $"Thanks for sharing! I'll remember that you live in {location}.";
-                LocationMemory.Text = "Location: " + location;
+                bot.Remember("location", question);
+                LocationMemory.Text = "Location: " + question;
+                response = $"Thanks for sharing! I'll remember that you live in {question}.";
+                pendingInfo = "";
+
+                // Confirmation after all info collected
+                AddBotMessage(response);
+                AddBotMessage($"✅ Great, I’ve saved your profile! Name: {bot.Recall("name")}, Birthday: {bot.Recall("birthday")}, Location: {bot.Recall("location")}");
+                return;
             }
             else
             {
-                // General responses with personalization
+                // Keep all your existing general responses
                 if (question.Contains("hello") || question.Contains("hi") || question.Contains("hey"))
                 {
                     string name = bot.Recall("name");
@@ -114,41 +190,31 @@ namespace POE_Part2
                 else if (question.Contains("who are you"))
                     response = "I’m your chatbot companion. I can chat casually or share cybersecurity awareness tips if you’d like.";
                 else if (question.Contains("im good and you") || question.Contains("im good") || question.Contains("im good thanks and yourself"))
-                    response = "I’m good thank you for asking.Im glad you're feeling well";
-                else if (question.Contains("im not good") || question.Contains("im not well") || question.Contains("Im not Okay"))
-                    response = "Its not good to hear that youre unwell ,i hope you become or youll be fine ";
-
+                    response = "I’m good thank you for asking. I’m glad you're feeling well. What can I help you with?";
+                else if (question.Contains("im not good") || question.Contains("im not well") || question.Contains("im not okay"))
+                    response = "It’s not good to hear that you’re unwell. I hope you feel better soon.";
                 else if (question.Contains("what can you do") || question.Contains("what can you help me with"))
                     response = "I can chat with you, detect sentiment, remember your details, and provide cybersecurity tips.";
+                else if (question.Contains("password"))
+                {
+                    response = "Passwords are important! Do you want me to explain how to make them stronger? (yes/no)";
+                    pendingQuestion = "password security";
+                }
+                else if (question.Contains("phishing"))
+                {
+                    response = "Phishing emails can be dangerous. Would you like me to show you how to spot them? (yes/no)";
+                    pendingQuestion = "phishing awareness";
+                }
+                else if (question.Contains("vpn"))
+                {
+                    response = "VPNs protect your privacy. Do you want me to explain safe browsing next? (yes/no)";
+                    pendingQuestion = "vpn usage";
+                }
                 else
                     response = bot.GetResponse(question);
             }
 
-            // Reference stored info later
-            if (question.Contains("birthday"))
-            {
-                string birthday = bot.Recall("birthday");
-                if (!string.IsNullOrEmpty(birthday))
-                    response += $" 🎂 I remember your birthday is {birthday}. Should I remind you when it’s close?";
-            }
-
-            if (question.Contains("cybersecurity"))
-            {
-                string location = bot.Recall("location");
-                if (!string.IsNullOrEmpty(location))
-                    response += $" 🌍 Since you live in {location}, I can share local cybersecurity tips if you’d like.";
-            }
-
-            // Topic chaining
-            if (response.Contains("password"))
-                response += " 🔐 Would you like me to also explain Two-Factor Authentication?";
-            else if (response.Contains("phishing"))
-                response += " 📧 Do you want tips on spotting scam emails too?";
-            else if (response.Contains("vpn"))
-                response += " 🌐 Since you’re curious about VPNs, should I explain safe browsing next?";
-
             AddBotMessage(response);
-
             bot.SaveMemory();
         }
 
@@ -159,6 +225,10 @@ namespace POE_Part2
             BirthdayMemory.Text = "Birthday: (not set)";
             LocationMemory.Text = "Location: (not set)";
             AddBotMessage("🗑️ Memory cleared.");
+
+            // Restart sequential prompts
+            AddBotMessage("👋 Let's start fresh. What is your name?");
+            pendingInfo = "name";
         }
 
         // Regular chatbot look: user right, bot left, with timestamps
@@ -187,7 +257,7 @@ namespace POE_Part2
                     {
                         Text = DateTime.Now.ToString("HH:mm"),
                         FontSize = 10,
-                        Foreground = Brushes.Black,
+                        Foreground = Brushes.DarkGray,
                         HorizontalAlignment = HorizontalAlignment.Right
                     }
                 }
@@ -219,7 +289,7 @@ namespace POE_Part2
                     {
                         Text = DateTime.Now.ToString("HH:mm"),
                         FontSize = 10,
-                        Foreground = Brushes.Black ,
+                        Foreground = Brushes.LightGray,
                         HorizontalAlignment = HorizontalAlignment.Left
                     }
                 }
@@ -227,3 +297,5 @@ namespace POE_Part2
         }
     }
 }
+
+
