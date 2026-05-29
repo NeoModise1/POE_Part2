@@ -5,7 +5,7 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="120"/>
             <!-- Header -->
             <RowDefinition Height="*"/>
             <!-- Conversation + Sidebar -->
@@ -21,35 +21,43 @@
 
         <!-- Header Bar -->
         <Border Grid.Row="0" Grid.ColumnSpan="2"
-                Background="DarkCyan"
+                Background="LightGray"
                 Padding="10"
                 CornerRadius="6"
-                Margin="5,5,0,609" Grid.RowSpan="2">
-            <DockPanel>
+                Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
                 <!-- ASCII Banner -->
-                <TextBlock Foreground="DarkOrange"
+                <TextBlock Grid.Column="0"
+                           Foreground="DarkOrange"
                            FontFamily="Consolas"
-                           FontSize="16"
+                           FontSize="20"
                            TextWrapping="Wrap"
-                           DockPanel.Dock="Left"
-                           Margin="5" Width="815">
- 
+                           VerticalAlignment="Center"
+                           Margin="5,0,44,0" Height="43">
+ +-+ +-+ +-+ +-+ +-+ +-+ 
  | C | y | b | e | r | s | e | c | u | r | i | t | y |
+ |   | A | w | a | r | e | n | e | s | s |   | B | o | t | +-+ +-+ +-+ +-+ +-+ +-+
 
-
- |   | A | w | a | r | e | n | e | s | s |                          | B | o | t
                 </TextBlock>
-                <Image Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\394E5372-1CDE-4FD9-AB08-6D629B563CDC.JPG"
-                       Stretch="UniformToFill"
-                       ClipToBounds="True"
-                       DockPanel.Dock="Right" Width="100"/>
 
-                <!-- Logo -->
-            </DockPanel>
+                <!-- Logo in corner -->
+                <Image
+                       Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\394E5372-1CDE-4FD9-AB08-6D629B563CDC.JPG"
+                       Width="154" Height="226"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="841,0,0,0" Grid.ColumnSpan="2"/>
+            </Grid>
         </Border>
 
         <!-- Conversation Panel -->
-        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="LightSkyBlue" Margin="5">
+        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="SteelBlue" Margin="5">
             <StackPanel x:Name="ChatPanel" Margin="10"/>
         </ScrollViewer>
 

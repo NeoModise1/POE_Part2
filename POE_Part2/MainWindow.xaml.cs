@@ -16,34 +16,19 @@ namespace POE_Part2
         public MainWindow()
         {
             InitializeComponent();
-            bot.LoadMemory();
+
+            // Always clear memory at startup
+            bot.ClearMemory();
 
             PlayGreeting();
 
-            // Always start sequential prompts
-            if (string.IsNullOrEmpty(bot.Recall("name")))
-            {
-                AddBotMessage("👋 Hi there! What is your name?");
-                pendingInfo = "name";
-            }
-            else if (string.IsNullOrEmpty(bot.Recall("birthday")))
-            {
-                AddBotMessage("🎂 Could you tell me your birthday?");
-                pendingInfo = "birthday";
-            }
-            else if (string.IsNullOrEmpty(bot.Recall("location")))
-            {
-                AddBotMessage("🌍 Where do you live?");
-                pendingInfo = "location";
-            }
-            else
-            {
-                AddBotMessage($"👋 Welcome back {bot.Recall("name")}! You can chat with me about anything, and I’ll also share cybersecurity tips if you’d like.");
-            }
+            // Start sequential prompts
+            AddBotMessage("👋 Hello! I’m your Cybersecurity Awareness Bot. Let’s get to know each other first. What is your name?");
+            pendingInfo = "name";
 
-            NameMemory.Text = "Name: " + (bot.Recall("name") ?? "(not set)");
-            BirthdayMemory.Text = "Birthday: " + (bot.Recall("birthday") ?? "(not set)");
-            LocationMemory.Text = "Location: " + (bot.Recall("location") ?? "(not set)");
+            NameMemory.Text = "Name: (not set)";
+            BirthdayMemory.Text = "Birthday: (not set)";
+            LocationMemory.Text = "Location: (not set)";
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)
@@ -111,28 +96,67 @@ namespace POE_Part2
                 return;
             }
 
-            // Normal chatbot flow after details are set
+            // Conversational flow
             if (question.Contains("hello") || question.Contains("hi") || question.Contains("hey"))
             {
                 string name = bot.Recall("name");
                 response = !string.IsNullOrEmpty(name) ? $"Hello {name}! How are you today?" : "Hello! How are you today?";
             }
+            else if (question.Contains("how are you"))
+            {
+                response = "I’m doing great, thanks for asking! How are you feeling today?";
+            }
+            else if (question.Contains("im good and you") || question.Contains("im good") || question.Contains("im good thanks and yourself"))
+            {
+                response = "I’m glad to hear that! I’m good too. Want to dive into some tips or just chat casually?";
+            }
+            else if (question.Contains("im not good") || question.Contains("im not well") || question.Contains("im not okay"))
+            {
+                response = "I’m sorry to hear that. I hope you feel better soon. Maybe some light cybersecurity chat will cheer you up?";
+            }
+            else if (question.Contains("joke"))
+            {
+                response = "😂 Why don’t hackers ever get invited to parties? Because they just keep trying to break the ice.";
+            }
             else if (question.Contains("who are you"))
+            {
                 response = "I’m your chatbot companion. I can chat casually or share cybersecurity awareness tips if you’d like.";
+            }
             else if (question.Contains("password"))
             {
-                response = "Passwords are important! Do you want me to explain how to make them stronger? (yes/no)";
-                pendingQuestion = "password security";
+                response = "🔑 Strong Password Tip: Use at least 12 characters, mix letters, numbers, and symbols.";
             }
             else if (question.Contains("phishing"))
             {
-                response = "Phishing emails can be dangerous. Would you like me to show you how to spot them? (yes/no)";
-                pendingQuestion = "phishing awareness";
+                response = "📧 Phishing Tip: Always check the sender’s email address carefully. Avoid clicking suspicious links, and never share personal info unless you’re sure the source is legitimate.";
+            }
+            else if (question.Contains("malware"))
+            {
+                response = "💻 Malware Tip: Keep your software updated and use antivirus tools to protect against malicious programs.";
             }
             else if (question.Contains("vpn"))
             {
-                response = "VPNs protect your privacy. Do you want me to explain safe browsing next? (yes/no)";
-                pendingQuestion = "vpn usage";
+                response = "🌐 VPN Tip: Always use a VPN on public Wi‑Fi to keep your data safe.";
+            }
+            else if (question.Contains("2fa"))
+            {
+                response = "🔒 2FA Tip: Enable two‑factor authentication on all important accounts for extra security.";
+            }
+            else if (question.Contains("safe browsing"))
+            {
+                response = "🛡️ Safe Browsing Tip: Avoid downloading files from untrusted sites and check for HTTPS before entering sensitive info.";
+            }
+            else if (question.Contains("scam"))
+            {
+                response = "🚨 Scam Tip: If it sounds too good to be true, it probably is. Always verify offers before acting.";
+            }
+            else if (question.Contains("privacy"))
+            {
+                response = "🔐 Privacy Tip: Limit the personal information you share online and review your social media privacy settings.";
+            }
+            else if (question.Contains("cybersecurity"))
+            {
+                response = "🧠 Cybersecurity Awareness: Stay alert, update your devices, and always think before you click.";
             }
             else
             {
