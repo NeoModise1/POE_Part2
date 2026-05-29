@@ -6,7 +6,7 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <!-- Compact header -->
+            <!-- Header -->
             <RowDefinition Height="*"/>
             <!-- Conversation + Sidebar -->
             <RowDefinition Height="Auto"/>
@@ -29,24 +29,22 @@
                 <!-- ASCII Banner -->
                 <TextBlock Foreground="DarkOrange"
                            FontFamily="Consolas"
-                           FontSize="20"
+                           FontSize="16"
                            TextWrapping="Wrap"
-                           VerticalAlignment="Center"
                            DockPanel.Dock="Left"
-                           Margin="5">
- +-+-+ +-+-+-+
- |C|y|b|e|r|s|e|c|u|r|i|t|y| |A|w|a|r|e|n|e|s|s| |B|o|t|
+                           Margin="5" Width="815">
+ 
+ | C | y | b | e | r | s | e | c | u | r | i | t | y |
+
+
+ |   | A | w | a | r | e | n | e | s | s |                          | B | o | t
                 </TextBlock>
+                <Image Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\394E5372-1CDE-4FD9-AB08-6D629B563CDC.JPG"
+                       Stretch="UniformToFill"
+                       ClipToBounds="True"
+                       DockPanel.Dock="Right" Width="100"/>
 
                 <!-- Logo -->
-                <Image Source="C:\Users\cash\source\repos\POE_Part2\POE_Part2\POE_Part2\394E5372-1CDE-4FD9-AB08-6D629B563CDC.JPG"
-                       Width="125" Height="130"
-                       Stretch="UniformToFill"
-                       Margin="10"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Right"
-                       ClipToBounds="True"
-                       DockPanel.Dock="Right"/>
             </DockPanel>
         </Border>
 
@@ -74,8 +72,6 @@
             <Button Content="Scams" Click="QuickTopic_Click" Tag="scam" Margin="5"/>
             <Button Content="Privacy" Click="QuickTopic_Click" Tag="privacy" Margin="5"/>
             <Button Content="Cybersecurity" Click="QuickTopic_Click" Tag="cybersecurity" Margin="5"/>
-            <Separator Margin="5"/>
-            <Button Content="Play Greeting Again" Background="Green" Foreground="White" Click="PlayGreeting_Click" Margin="5"/>
         </StackPanel>
 
         <!-- Input Section -->
