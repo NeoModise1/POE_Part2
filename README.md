@@ -1,4 +1,4 @@
-# POE_Part2
+# POE_Assignment1
 # Cybersecurity Awareness Chatbot
 
 A WPF chatbot project built in C# for cybersecurity awareness and casual conversation.  
